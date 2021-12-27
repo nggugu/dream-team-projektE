@@ -12,9 +12,6 @@
 
 #include "main.h"
 
-// Change this constant to desierd I2C channel
-#define I2C_CHANNEL	&hi2c1
-
 // Device addresses
 #define BME280_ADDRESS_WRITE	0xEC
 #define BME280_ADDRESS_READ		0xED
@@ -51,6 +48,7 @@ extern BME280_config gaming;
  */
 extern BME280_config iber;
 
+// This variable holds the desired I2C channel
 I2C_HandleTypeDef i2c_channel;
 
 // Variables to hold calibration data
