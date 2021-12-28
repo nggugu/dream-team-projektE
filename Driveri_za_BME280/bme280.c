@@ -61,7 +61,7 @@ void readCalibrationData(void) {
 	uint8_t CallibData_H[7] = {0};
 
 	// Calibration data for temperature and pressure
-	HAL_I2C_Mem_Read(I2C_CHANNEL, BME280_ADDRESS_READ, 0x88, 1, CallibData_TP, 24, HAL_MAX_DELAY);
+	HAL_I2C_Mem_Read(&i2c_channel, BME280_ADDRESS_READ, 0x88, 1, CallibData_TP, 24, HAL_MAX_DELAY);
 
 	dig_T1 = ((CallibData_TP[1] << 8) | CallibData_TP[0]);
 	dig_T2 = ((CallibData_TP[3] << 8) | CallibData_TP[2]);
@@ -78,8 +78,8 @@ void readCalibrationData(void) {
 	dig_P9 = ((CallibData_TP[23] << 8) | CallibData_TP[22]);
 
 	// Calibration data for humidity
-	HAL_I2C_Mem_Read(I2C_CHANNEL, BME280_ADDRESS_READ, 0xA1, 1, CallibData_H, 1, HAL_MAX_DELAY);
-	HAL_I2C_Mem_Read(I2C_CHANNEL, BME280_ADDRESS_READ, 0xE1, 1, CallibData_H + 1, 6, HAL_MAX_DELAY);
+	HAL_I2C_Mem_Read(&i2c_channel, BME280_ADDRESS_READ, 0xA1, 1, CallibData_H, 1, HAL_MAX_DELAY);
+	HAL_I2C_Mem_Read(&i2c_channel, BME280_ADDRESS_READ, 0xE1, 1, CallibData_H + 1, 6, HAL_MAX_DELAY);
 
 	dig_H1 = CallibData_H[0];
 	dig_H2 = ((CallibData_H[2] << 8) | CallibData_H[1]);
@@ -133,44 +133,24 @@ void performMeasureBME280(void) {
 	HAL_I2C_Master_Transmit(&i2c_channel, BME280_ADDRESS_WRITE, bytes, 2, HAL_MAX_DELAY);
 }
 
-/*
- * Get uncompensated temperature
- */
-uint32_t getUncompTemp(void) {
-	uint8_t uTemp[3] = {0};
+void readData() {
+	uint8_t uData[8] = {0};
 
-	HAL_I2C_Mem_Read(&i2c_channel, BME280_ADDRESS_READ, 0xFA, 1, uTemp, 3, HAL_MAX_DELAY);
+	HAL_I2C_Mem_Read(&i2c_channel, BME280_ADDRESS_READ, 0xF7, 1, uData, 8, HAL_MAX_DELAY);
 
-	return ((uTemp[0] << 12) | (uTemp[1] << 4) | (uTemp[2] >> 4));
-}
+	uncompPres = ((uData[0] << 12) | (uData[1] << 4) | (uData[2] >> 4));
+	uncompTemp = ((uData[3] << 12) | (uData[4] << 4) | (uData[5] >> 4));
+	uncompHum = ((uData[6] << 8) | uData[7]);
 
-/*
- * Get uncompensated pressure
- */
-uint32_t getUncompPres(void) {
-	uint8_t uPres[3] = {0};
-
-	HAL_I2C_Mem_Read(&i2c_channel, BME280_ADDRESS_READ, 0xF7, 1, uPres, 3, HAL_MAX_DELAY);
-
-	return ((uPres[0] << 12) | (uPres[1] << 4) | (uPres[2] >> 4));
-}
-
-/*
- * Get uncompensated humidity
- */
-uint16_t getUncompHum(void) {
-	uint8_t uHum[2] = {0};
-
-	HAL_I2C_Mem_Read(&i2c_channel, BME280_ADDRESS_READ, 0xFD, 1, uHum, 2, HAL_MAX_DELAY);
-
-	return ((uHum[0] << 8) | uHum[1]);
+	getTemp(uncompTemp);
+	getPres(uncompPres);
+	getHum(uncompHum);
 }
 
 /*
  * Get calibrated temperature
  */
-double getTemp() {
-	uint32_t uTemp = getUncompTemp();
+void getTemp(uint32_t uTemp) {
 
 	double var1, var2, T;
 
@@ -180,14 +160,14 @@ double getTemp() {
 
 	t_fine = (int32_t) (var1 + var2);
 	T = (var1 + var2) / 5120.0;
-	return T;
+
+	temperature = T;
 }
 
 /*
  * Get calibrated pressure
  */
-double getPres() {
-	uint32_t uPres = getUncompPres();
+void getPres(uint32_t uPres) {
 
 	double var1, var2, p;
 
@@ -199,7 +179,7 @@ double getPres() {
 	var1 = (1.0 + var1 / 32768.0)*((double) dig_P1);
 
 	if (var1 == 0.0) {
-		return 0;
+		p = 0;
 	}
 
 	p = 1048576.0 - (double) uPres;
@@ -207,14 +187,14 @@ double getPres() {
 	var1 = ((double) dig_P9) * p * p / 2147483648.0;
 	var2 = p * ((double) dig_P8) / 32768.0;
 	p = p + (var1 + var2 + ((double) dig_P7)) / 16.0;
-	return p;
+
+	pressure = p;
 }
 
 /*
  * Get calibrated humidity
  */
-double getHum() {
-	uint16_t uHum = getUncompHum();
+void getHum(uint16_t uHum) {
 
 	double var_H;
 
@@ -231,5 +211,5 @@ double getHum() {
 		var_H = 0.0;
 	}
 
-	return var_H;
+	humidity = var_H;
 }
