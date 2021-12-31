@@ -1,0 +1,28 @@
+.masthead {
+    height: 100vh;
+    min-height: 500px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: white;
+}
+
+.card {
+    border-color: wheat;
+    border-width: 0.1rem;
+}
+
+hr {
+  color: wheat;
+  opacity: 0.5;
+}
+
+.btn.btn-primary.btn-lg.btn-block {
+  background-color: darkgreen;
+  border-color: darkgreen;
+}
+
+.btn.btn-primary.btn-lg.btn-block:hover {
+  background-color: rgb(11, 165, 11);
+  border-color: rgb(11, 165, 11);
+}

@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Naslovna</title>
+    <link rel="icon" href="{%static 'icon.svg' %}">
+
+    <!-- Vendor CSS Files -->
+    <link href="{%static 'css/vendor/animate.min.css' %}" rel="stylesheet">
+    <link href="{%static 'css/vendor/bootstrap-icons.css' %}" rel="stylesheet">
+    <!--Template Main CSS File-->
+    <link href="{%static 'css/vendor/style.css' %}" rel="stylesheet">
+   
+    <link href="{% static '/css/bootstrap-grid.css' %}" rel="stylesheet">
+    <link href="{% static '/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static '/css/headers.css' %}" rel="stylesheet">
+   
+
+    <!--nas css-->
+    <link rel="stylesheet" href="{% static '/css/mycss.css' %}">
+    <!--nas css-->
+
+
+</head>
+<body>
+    <!--HEADER--> 
+    {% include "./Header.html" %}
+    <!--HEADER-->
+
+    <div class="masthead" style="background-image: url('https://images.pexels.com/photos/7656453/pexels-photo-7656453.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260');">
+        <div class="container h-100">
+          <div class="row h-100 align-items-center">
+            <div class="col-12 text-center">
+              <h1 class="fw-light"><b>eKantica</b></h1>
+              <p class="lead"><b>Sustav za automatsko zalijevanje cvijeća &#127804</b></p>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <!-- Page Content -->
+    <section class="py-5">
+        <div class="container">
+        <h2 class="fw-light">Što je eKantica?</h2>
+        <p>eKantica je sustav za automatsko zalijevanje cvijeća koji koristi pločicu, razne senzore te pumpu 
+            pomoću kojih u određenim vremenskim intervalima samostalno zalijeva biljku. Prateći trenutno stanje
+        senzorima, sustav može sam odrediti kada je potrebno zaliti biljku.</p>
+        </div>
+    </section>
+
+    <!--FOOTER--> 
+    {% include "./Footer.html" %}
+    <!--FOOTER-->
+
+</body>
+
+
+<script src="{% static '/js/bootstrap.bundle.min.js' %}"></script>
+
+</html>
+
+

@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>O kantici</title>
+    <link rel="icon" href="{%static 'icon.svg' %}">
+
+    <!-- Vendor CSS Files -->
+    <link href="{%static 'css/vendor/animate.min.css' %}" rel="stylesheet">
+    <link href="{%static 'css/vendor/bootstrap-icons.css' %}" rel="stylesheet">
+    <!--Template Main CSS File-->
+    <link href="{%static 'css/vendor/style.css' %}" rel="stylesheet">
+   
+    <link href="{% static '/css/bootstrap-grid.css' %}" rel="stylesheet">
+    <link href="{% static '/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static '/css/headers.css' %}" rel="stylesheet">
+   
+
+    <!--nas css-->
+    <link rel="stylesheet" href="{% static '/css/mycss.css' %}">
+    <!--nas css-->
+</head>
+
+<body>
+    <!--HEADER--> 
+    {% include "./Header.html" %}
+    <!--HEADER-->
+
+    <div class="masthead" style="background-image: url('https://images.pexels.com/photos/5231304/pexels-photo-5231304.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500');">
+        <div class="container h-100">
+          <div class="row h-100 align-items-center">
+            <div class="col-12 text-center">
+              <h1 class="fw-light"><b>O projektu</b></h1>
+              <p class="lead"><b>Ovdje se nalazi sve što vas zanima o našem projektu.</b></p>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <section class="py-5">
+        <div class="container">
+        <h2 class="fw-light">O projektu</h2>
+        <p>bla bla</p>
+        </div>
+    </section>
+
+    <!--FOOTER--> 
+    {% include "./Footer.html" %}
+    <!--FOOTER-->
+</body>
+
+
+<script src="{% static '/js/bootstrap.bundle.min.js' %}"></script>
+
+</html>
