@@ -73,10 +73,18 @@ int16_t dig_H4;
 int16_t dig_H5;
 int8_t dig_H6;
 
-/*
- * Initialize BME280 sensor according to given configuration
- */
-void initBME280(BME280_config config, I2C_HandleTypeDef i2c_address);
+// Variables to hold uncompensated data
+uint32_t uncompTemp;
+uint32_t uncompPres;
+uint16_t uncompHum;
+
+// This variable carries fine temperature as global value
+int32_t t_fine;
+
+// Variables to hold calibrated data
+extern double temperature;
+extern double pressure;
+extern double humidity;
 
 /*
  * This function is called once upon a start of a device.
@@ -85,34 +93,38 @@ void initBME280(BME280_config config, I2C_HandleTypeDef i2c_address);
 void readCalibrationData(void);
 
 /*
+ * Initialize BME280 sensor according to given configuration
+ */
+void initBME280(BME280_config config, I2C_HandleTypeDef i2c_address);
+
+/*
  * Use this function if your sensor works in weather mode
  */
 void performMeasureBME280(void);
 
-// This set of functions are used to get raw data from the sensor.
-uint32_t getUncompTemp(void);
-uint32_t getUncompPres(void);
-uint16_t getUncompHum(void);
+/*
+ * Read and calibrate data from sensor
+ */
+void readData(void);
 
-// This variable carries fine temperature as global value
-int32_t t_fine;
+// This set of functions are used to get raw data from the sensor.
 
 /*
- * Returns temperature in DegC, double precision.
+ * Calculates temperature in DegC, double precision.
  * Output value of “51.23” equals 51.23 DegC.
  */
-double getTemp();
+void getTemp(uint32_t uTemp);
 
 /*
- * Returns pressure in Pa as double.
+ * Calculates pressure in Pa as double.
  * Output value of “96386.2” equals 96386.2 Pa = 963.862 hPa
  */
-double getPres();
+void getPres(uint32_t uPres);
 
 /*
- * Returns humidity in %rH as as double.
+ * Calculates humidity in %rH as as double.
  * Output value of “46.332” represents 46.332 %rH
  */
-double getHum();
+void getHum(uint16_t uHum);
 
 #endif /* INC_BME280_H_ */
