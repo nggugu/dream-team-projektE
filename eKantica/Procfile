@@ -1,0 +1,1 @@
+web: gunicorn eKantica_Project.wsgi --log-file -
