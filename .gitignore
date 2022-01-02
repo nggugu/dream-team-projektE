@@ -3,6 +3,3 @@
 *.synctex.gz
 *.tex
 *.toc
-eKantica/requirements.txt
-eKantica/runtime.txt
-eKantica/Procfile
